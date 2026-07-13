@@ -1,19 +1,36 @@
-# Cascade Quantum Examples
+# Red Cedar Examples
 
-Example notebooks demonstrating the Cascade Quantum ML pipeline.
+Example notebooks demonstrating the Red Cedar quantum machine learning pipeline.
 
 ## Prerequisites
 
+Install the Red Cedar client:
+
 ```bash
-pip install -e ../cascade-quantum-sdk
+cd ../redcedar
+pip install -e .
 ```
 
 Set your server connection:
+
 ```bash
-export CQ_URL="http://localhost:8000"       # local server
-export CQ_API_KEY="your-api-key"            # API key
+export REDCEDAR_URL="http://localhost:8000"       # local server
+export REDCEDAR_API_KEY="your-api-key"            # API key
+```
+
+Or configure directly in the notebook:
+
+```python
+import redcedar
+client = redcedar.connect(url="http://localhost:8002", api_key="your-key")
 ```
 
 ## Notebooks
 
-- **01_full_pipeline.ipynb** — Complete workflow: dataset selection, PCA, MI, resource estimation, training, inference, and explainable AI.
+| Notebook | Description |
+|----------|-------------|
+| **01_full_pipeline.ipynb** | Complete workflow: dataset selection, PCA, Mutual Information, Resource Estimation, training, inference, and Explainable AI |
+
+## About
+
+These examples use the Red Cedar Python client to interact with a Red Cedar server. All quantum computation happens on the server — these notebooks require no quantum libraries.
