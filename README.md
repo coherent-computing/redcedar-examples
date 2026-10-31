@@ -30,6 +30,7 @@ client = redcedar.connect(url="http://localhost:8002", api_key="your-key")
 | Notebook | Description |
 |----------|-------------|
 | **01_full_pipeline.ipynb** | Complete workflow: dataset selection, PCA, Mutual Information, Resource Estimation, training, inference, and Explainable AI |
+| **02_training_settings.ipynb** | Training settings, one section per setting: `seed` (repeatable runs) and `op_direction` (order of the operators) |
 
 ## About
 
