@@ -16,7 +16,7 @@ The client needs only `requests`; `[plotting]` adds matplotlib, which the notebo
 Set your server connection:
 
 ```bash
-export REDCEDAR_URL="http://localhost:8000"       # local server
+export REDCEDAR_URL="http://localhost:8002"       # local server
 export REDCEDAR_API_KEY="your-api-key"            # API key
 ```
 
