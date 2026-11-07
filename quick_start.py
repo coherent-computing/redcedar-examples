@@ -81,7 +81,9 @@ print(client.status())
 # layers often, but not always, improve the accuracy.
 #
 # Settings: here 6 qubits and 2 layers, which trains in about a minute; seed makes the run
-# repeatable.
+# repeatable. dimension_reduction "none" keeps each original measurement as it is (by default,
+# Red Cedar first combines the measurements into new features), so that explainable AI in step 4
+# can name the measurements the model relies on.
 #
 # After each layer the server reports the test accuracy: the share of the rows it set aside from
 # the file (20%), which the model does not train on, that the model classifies correctly.
@@ -93,6 +95,7 @@ result = client.training.run(train_file, verbose=True, settings={
     "min_layers": 1,
     "max_layers": 2,
     "seed": 123,
+    "dimension_reduction": "none",   # keep the original measurements (see Settings above)
 })
 
 train_id = result["train_id"]
