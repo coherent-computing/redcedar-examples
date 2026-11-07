@@ -47,7 +47,11 @@ Start with `01_quick_start.ipynb`; the others go deeper into one topic each and 
 
 ## Data
 
-`data/wdbc_train.csv` (455 rows) and `data/wdbc_new.csv` (114 rows) are the Breast Cancer Wisconsin (Diagnostic) dataset, split once at random into 80% and 20% with the same mix of diagnoses in both (scikit-learn `train_test_split`, `stratify` on the diagnosis, `random_state=42`). Each row has 30 measurements of a tumor sample and the diagnosis, `M` (malignant) or `B` (benign), in the last column.
+The files in `data/` are the Breast Cancer Wisconsin (Diagnostic) dataset, split once at random into 80% and 20% with the same mix of diagnoses in both (scikit-learn `train_test_split`, `stratify` on the diagnosis, `random_state=42`). Each row has 30 measurements of a tumor sample and its diagnosis, `M` (malignant) or `B` (benign).
+
+- `wdbc_train.csv`: 455 samples with their diagnosis in the last column, to train on.
+- `wdbc_new.csv`: the other 114 samples, measurements only. They stand in for new data whose class is unknown.
+- `wdbc_new_diagnosis.csv`: the diagnoses of those 114 samples, in the same order, used only to check the model's inferences.
 
 Source: W. Wolberg, O. Mangasarian, N. Street and W. Street, *Breast Cancer Wisconsin (Diagnostic)*, UCI Machine Learning Repository, 1993, [doi.org/10.24432/C5DW2B](https://doi.org/10.24432/C5DW2B). Licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
 

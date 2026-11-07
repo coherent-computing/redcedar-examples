@@ -5,9 +5,14 @@
 3. Infer the class of new data the model has never seen
 4. See which input features the model relies on
 
-The data is the Wisconsin breast cancer dataset (WDBC), split once into two files in data/:
-wdbc_train.csv (455 rows) to train on, and wdbc_new.csv (114 rows) to infer. Each row is a
-tumor sample: 30 measurements, then the diagnosis in the last column, M (malignant) or B (benign).
+The data is the Wisconsin breast cancer dataset (WDBC). Each row is a tumor sample: 30
+measurements (the features) and a diagnosis (the class), M for malignant or B for benign. It is
+split once into two files in data/:
+  wdbc_train.csv  455 samples with their diagnosis, to train the model
+  wdbc_new.csv    114 other samples with the measurements only: new patients whose diagnosis is
+                  unknown, which the trained model infers
+The real diagnoses of the 114 new samples are kept apart in wdbc_new_diagnosis.csv, used only at
+the end of step 3 to check the model.
 
 The server comes from REDCEDAR_URL and REDCEDAR_API_KEY. The plots are saved as PNG files
 next to this script.
@@ -25,8 +30,8 @@ import matplotlib.pyplot as plt
 import redcedar
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-train_file = os.path.join(HERE, "data", "wdbc_train.csv")   # 455 rows to train on
-new_file = os.path.join(HERE, "data", "wdbc_new.csv")       # 114 rows the model never sees in training
+train_file = os.path.join(HERE, "data", "wdbc_train.csv")   # 455 samples with their diagnosis, to train on
+new_file = os.path.join(HERE, "data", "wdbc_new.csv")       # 114 new samples: measurements only, no diagnosis
 
 # Connect to the server
 # Reads REDCEDAR_URL and REDCEDAR_API_KEY from environment, or pass explicitly:
@@ -37,6 +42,9 @@ status = client.status()
 print(f"Server: {client.url or 'local mode, in this process'} (version {status['server_version'] or 'unknown'}, ok={status['ok']})")
 
 # --- 1. Train a model ----------------------------------------------------------
+# Training teaches a model to recognize patterns in data: from rows with features and a known
+# class, it learns which patterns of features go with which class, so that it can later infer
+# the class of rows it has never seen.
 # 6 qubits and 2 layers; seed fixes the starting parameters, so the run can be repeated exactly.
 # At the end of each layer the server tests the model on rows it set aside (20% by default).
 print("\n1. Training")
@@ -81,38 +89,43 @@ plt.savefig(os.path.join(HERE, "quick_start_training.png"))
 print("\n2. Training curves saved to quick_start_training.png")
 
 # --- 3. Infer the class of new data --------------------------------------------
-# The model infers the class of each row of a file it never saw in training. This file still
-# has the diagnosis column, so the server reports the accuracy; with truly new data you would
-# leave that column out.
-print("\n3. Inference on new data")
-predictions_file = os.path.join(HERE, "wdbc_new_predictions.csv")
-predictions = client.inference.run(train_id, new_file, output=predictions_file, verbose=True)
+# The trained model infers the diagnosis of the 114 new samples, whose diagnosis is unknown: for
+# each one the class, M or B, with a confidence (the probability the model gives that class).
+print("\n3. Infer the class of new data")
+results_file = os.path.join(HERE, "wdbc_new_results.csv")
+results = client.inference.run(train_id, new_file, output=results_file, verbose=True)
+inferred = results["predictions"]
 
-print(f"Accuracy on {predictions['rows']} new rows: {predictions['accuracy']:.1%}")
-print("Rows and inferred classes written to wdbc_new_predictions.csv")
+names = {"M": "Malignant (M)", "B": "Benign (B)"}
+counts = {c: sum(str(r["prediction"]) == c for r in inferred) for c in names}
+print(f"Of {len(inferred)} new patients, the model infers {counts['M']} malignant (M) and {counts['B']} benign (B).")
 
-# Compare with the diagnosis in the file
-with open(new_file, newline="") as f:
-    actual = [row["diagnosis"] for row in csv.DictReader(f)]
-rows = list(zip(actual, predictions["predictions"]))
+print("\nThe first 10:")
+print(f"  {'Patient':>7}  {'Inferred':<14}  Confidence")
+for i, r in enumerate(inferred[:10], start=1):
+    c = str(r["prediction"])
+    print(f"  {i:>7}  {names[c]:<14}  {r['probabilities'][c]:.0%}")
+print("\nEach sample with its inferred class and probabilities is written to wdbc_new_results.csv")
 
-print("First 5 rows:")
-for a, p in rows[:5]:
-    probs = ", ".join(f"{c}: {v:.0%}" for c, v in p["probabilities"].items())
-    print(f"  actual {a}, predicted {p['prediction']}  ({probs})")
-
-classes = sorted(set(actual))
-accuracy = [sum(str(p["prediction"]) == c for a, p in rows if a == c) / actual.count(c) for c in classes]
 plt.figure(figsize=(5, 3))
-plt.bar(classes, accuracy)
-plt.axhline(predictions["accuracy"], color="gray", ls="--", label="overall")
-plt.ylim(0, 1)
-plt.xlabel("Class")
-plt.ylabel("Accuracy on new rows")
-plt.legend()
+plt.bar([names[c] for c in counts], list(counts.values()), color=["tab:red", "tab:blue"])
+plt.ylabel("New patients")
+plt.title("Inferred diagnosis")
 plt.tight_layout()
 plt.savefig(os.path.join(HERE, "quick_start_inference.png"))
-print("Accuracy per class saved to quick_start_inference.png")
+print("Inferred diagnoses saved to quick_start_inference.png")
+
+# How good were these inferences? The new samples come from the WDBC dataset, so their real
+# diagnoses are known; they are kept apart in wdbc_new_diagnosis.csv and the model never sees
+# them. With your own new data you would not have them; here they let us check the model.
+with open(os.path.join(HERE, "data", "wdbc_new_diagnosis.csv"), newline="") as f:
+    actual = [row["diagnosis"] for row in csv.DictReader(f)]
+
+correct = sum(str(r["prediction"]) == a for r, a in zip(inferred, actual))
+print(f"\nCheck: {correct} of {len(actual)} inferred correctly ({correct / len(actual):.1%})")
+for c in names:
+    right = sum(str(r["prediction"]) == a == c for r, a in zip(inferred, actual))
+    print(f"  {names[c]}: {right} of {actual.count(c)} inferred correctly")
 
 # --- 4. Which features the model relies on --------------------------------------
 # Explainable AI maps each data qubit back to the input feature it encodes and measures how
