@@ -33,7 +33,7 @@ Start with `01_quick_start.ipynb`; the others go deeper into one topic each and 
 
 | Notebook | Description |
 |----------|-------------|
-| **01_quick_start.ipynb** | The basic workflow on your own data, as in the Quick Start guide: train a model on a CSV file, plot the training curves, infer the class of new data from a second file, and see which features the model relies on (Explainable AI) |
+| **01_quick_start.ipynb** | The basic workflow, as in the Quick Start guide: train a model on a CSV file, check the quality of the training, infer the class of samples whose class is unknown from a second file, verify the results, and see which features the model relies on (Explainable AI) |
 | **02_dataset_analysis.ipynb** | Understand a dataset before training: PCA, mutual information and quantum resource estimation with plots, comparing two datasets, and analyzing your own CSV file |
 | **03_training_settings.ipynb** | Training settings, one section per setting: `seed` (repeatable runs) and `op_direction` (order of the operators) |
 | **04_training_in_depth.ipynb** | Layers and layer chaining, test accuracy over the course of training, per-class results and testing on the rows the server set aside (`training.evaluate()`), choosing the train and test data, reusing trained models, and checking on or stopping a running job |
@@ -50,8 +50,8 @@ Start with `01_quick_start.ipynb`; the others go deeper into one topic each and 
 The files in `data/` are the Breast Cancer Wisconsin (Diagnostic) dataset, split once at random into 80% and 20% with the same mix of diagnoses in both (scikit-learn `train_test_split`, `stratify` on the diagnosis, `random_state=42`). Each row has 30 measurements of a tumor sample and its diagnosis, `M` (malignant) or `B` (benign).
 
 - `wdbc_train.csv`: 455 samples with their diagnosis in the last column, to train on.
-- `wdbc_new.csv`: the other 114 samples, measurements only. They stand in for new data whose class is unknown.
-- `wdbc_new_diagnosis.csv`: the diagnoses of those 114 samples, in the same order, used only to check the model's inferences.
+- `wdbc_unknown.csv`: the other 114 samples, measurements only. They stand in for samples whose class is unknown.
+- `wdbc_unknown_true_diagnosis.csv`: the true diagnoses of those 114 samples, in the same order, used only to verify the model's inferences.
 
 Source: W. Wolberg, O. Mangasarian, N. Street and W. Street, *Breast Cancer Wisconsin (Diagnostic)*, UCI Machine Learning Repository, 1993, [doi.org/10.24432/C5DW2B](https://doi.org/10.24432/C5DW2B). Licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
 
