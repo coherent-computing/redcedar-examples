@@ -3,5 +3,7 @@ __pycache__/
 *.pyo
 .ipynb_checkpoints/
 .env
-# Written by 01_quick_start.ipynb
+# Written by 01_quick_start.ipynb and quick_start.py
 *_predictions.csv
+# Written by quick_start.py
+quick_start_*.png

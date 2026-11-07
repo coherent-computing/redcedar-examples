@@ -33,11 +33,17 @@ Start with `01_quick_start.ipynb`; the others go deeper into one topic each and 
 
 | Notebook | Description |
 |----------|-------------|
-| **01_quick_start.ipynb** | The basic workflow on your own data, as in the Quick Start guide: train a model on a CSV file, plot the training curves, predict new rows from a second file, and see which features the model relies on (Explainable AI) |
+| **01_quick_start.ipynb** | The basic workflow on your own data, as in the Quick Start guide: train a model on a CSV file, plot the training curves, infer the class of new data from a second file, and see which features the model relies on (Explainable AI) |
 | **02_dataset_analysis.ipynb** | Understand a dataset before training: PCA, mutual information and quantum resource estimation with plots, comparing two datasets, and analyzing your own CSV file |
 | **03_training_settings.ipynb** | Training settings, one section per setting: `seed` (repeatable runs) and `op_direction` (order of the operators) |
 | **04_training_in_depth.ipynb** | Layers and layer chaining, test accuracy over the course of training, per-class results and testing on the rows the server set aside (`training.evaluate()`), choosing the train and test data, reusing trained models, and checking on or stopping a running job |
 | **01_full_pipeline.ipynb** | The earlier all-in-one example (analysis, training, inference, Explainable AI in one notebook); covered now by 01 and 02 |
+
+## Scripts
+
+| Script | Description |
+|--------|-------------|
+| **quick_start.py** | The same steps as `01_quick_start.ipynb`, run from the command line (`python quick_start.py`). It prints the results and saves the plots as PNG files next to the script |
 
 ## Data
 
