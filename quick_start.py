@@ -115,7 +115,7 @@ for layer, v in result["validation"].items():
 CLASS_NAMES = {"M": "Malignant (M)", "B": "Benign (B)"}
 
 
-def show_predicted_classes(predicted, png):
+def plot_predicted_classes(predicted, png):
     """Print how many samples got each class and the first 10 with their confidence; plot the counts."""
     counts = {c: sum(str(r["prediction"]) == c for r in predicted) for c in CLASS_NAMES}
     print(f"\nOf the {len(predicted)} unclassified samples, the model classifies "
@@ -138,7 +138,7 @@ def show_predicted_classes(predicted, png):
 print("\n2. Classify samples using the trained model")
 results = client.inference.run(train_id, unclassified_file, output="wdbc_unclassified_predicted.csv", verbose=True)
 predicted = results["predictions"]
-show_predicted_classes(predicted, "quick_start_classes.png")
+plot_predicted_classes(predicted, "quick_start_classes.png")
 
 # ==============================================================================
 # 3. CHECK THE PREDICTED CLASSES
@@ -168,7 +168,7 @@ for c in CLASS_NAMES:
 # that qubit influences the prediction. More in the User Guide: Explainable AI.
 
 
-def show_feature_importance(qubit_map, png):
+def plot_feature_importance(qubit_map, png):
     """Print each data qubit's feature and importance, most important first; plot them."""
     qubit_map = sorted(qubit_map, key=lambda q: q["importance"], reverse=True)
     for q in qubit_map:
@@ -185,4 +185,4 @@ def show_feature_importance(qubit_map, png):
 # Explain the model and show the results
 print("\n4. Which features the model relies on")
 explanation = client.explainable.run(train_id, verbose=True)
-show_feature_importance(explanation["qubit_map"], "quick_start_features.png")
+plot_feature_importance(explanation["qubit_map"], "quick_start_features.png")
