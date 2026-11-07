@@ -1,48 +1,49 @@
 # Red Cedar Examples
 
-Example notebooks demonstrating the Red Cedar quantum machine learning pipeline.
+Example notebooks and scripts that use Red Cedar, through its Python SDK (`redcedar`).
 
 ## Prerequisites
 
-Install the Red Cedar client:
+Install the SDK, with matplotlib for the plots:
 
 ```bash
-cd ../redcedar
-pip install -e ".[plotting]"
+pip install "redcedar[plotting]"
 ```
 
-The client needs only `requests`; `[plotting]` adds matplotlib, which the notebooks use for their plots. The client's functions, settings and return values are documented in the [redcedar README](https://github.com/coherent-computing/redcedar#readme).
+The SDK needs only `requests`; `[plotting]` adds matplotlib. Every SDK function is described in the [User Guide](https://coherent-computing.github.io/redcedar/user_guide/).
 
-Set your server connection:
+Set your server connection before starting Jupyter:
 
 ```bash
-export REDCEDAR_URL="http://localhost:8002"       # local server
-export REDCEDAR_API_KEY="your-api-key"            # API key
+export REDCEDAR_URL="http://127.0.0.1:8002"       # a server on your own machine
+export REDCEDAR_API_KEY="your-api-key"            # the key for that server
 ```
 
-Or configure directly in the notebook:
+Or pass them in the notebook:
 
 ```python
 import redcedar
-client = redcedar.connect(url="http://localhost:8002", api_key="your-key")
+client = redcedar.connect(url="http://127.0.0.1:8002", api_key="your-key")
 ```
+
+Which key to use depends on the server: see [Connecting to a Server](https://coherent-computing.github.io/redcedar/user_guide/#connecting-to-a-server) in the User Guide.
 
 ## Notebooks
 
-Start with `01_quick_start.ipynb`; the others go deeper into one topic each and can be read in any order.
+Start with `01_quick_start.ipynb`; the others go deeper into one topic each and can be read in any order. Each notebook is saved with the output of a run, so you can read the results and plots without running it.
 
-| Notebook | Description |
-|----------|-------------|
-| **01_quick_start.ipynb** | The basic workflow, as in the Quick Start guide: train a model on a CSV file of classified samples, classify the samples in a second file using the trained model, check the predicted classes, and see which features the model relies on (Explainable AI) |
-| **02_dataset_analysis.ipynb** | Understand a dataset before training: PCA, mutual information and quantum resource estimation with plots, comparing two datasets, and analyzing your own CSV file |
-| **03_training_settings.ipynb** | Training settings, one section per setting: `seed` (repeatable runs) and `op_direction` (order of the operators) |
-| **04_training_in_depth.ipynb** | Training loss and accuracy during training, layers and layer chaining, test accuracy over the course of training, per-class results and testing on the rows the server set aside (`training.evaluate()`), choosing the train and test data, reusing trained models, and checking on or stopping a running job |
+| Notebook | Shows |
+|----------|-------|
+| **01_quick_start.ipynb** | The basic workflow, as in the Quick Start guide: train a quantum model on a CSV file of classified samples, classify the samples in a second file using the trained model, check the predicted classes, and see which features the model relies on (explainable AI) |
+| **02_dataset_analysis.ipynb** | How to understand a dataset before training: PCA, mutual information and quantum resource estimation, comparing two datasets, and analyzing your own CSV file |
+| **03_training_settings.ipynb** | How training settings change a model, one section per setting: `seed` (repeatable runs) and `op_direction` (order of the operators), and the settings saved with each model |
+| **04_training_in_depth.ipynb** | A closer look at training: loss and accuracy during training, layers and layer chaining, test accuracy over the course of training, results per class and per layer, choosing the train and test data, reusing trained models, and checking on or stopping a running job |
 
 ## Scripts
 
-| Script | Description |
-|--------|-------------|
-| **quick_start.py** | The same steps as `01_quick_start.ipynb`, run from the command line (`python quick_start.py`). It prints the results and saves the plots as PNG files next to the script |
+| Script | Shows |
+|--------|-------|
+| **quick_start.py** | The same steps as `01_quick_start.ipynb`, from the command line. Run it from this folder (`python quick_start.py`); it prints the results and saves the plots as PNG files here |
 
 ## Data
 
@@ -52,8 +53,10 @@ The files in `data/` are the Breast Cancer Wisconsin (Diagnostic) dataset, split
 - `wdbc_unclassified.csv`: the other 114 samples, measurements only. They stand in for samples whose class is not yet known.
 - `wdbc_unclassified_actual.csv`: the actual diagnoses of those 114 samples, in the same order, used only to check the model's predicted classes.
 
+Notebooks 02 to 04 use the same dataset from the server's catalog (`wdbc`).
+
 Source: W. Wolberg, O. Mangasarian, N. Street and W. Street, *Breast Cancer Wisconsin (Diagnostic)*, UCI Machine Learning Repository, 1993, [doi.org/10.24432/C5DW2B](https://doi.org/10.24432/C5DW2B). Licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
 
 ## About
 
-These examples use the Red Cedar Python client to interact with a Red Cedar server. All quantum computation happens on the server — these notebooks require no quantum libraries.
+These examples use the Red Cedar Python SDK to work with a Red Cedar server. All quantum computation happens on the server, so the examples need no quantum libraries.
