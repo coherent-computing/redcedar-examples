@@ -38,6 +38,7 @@ Start with `01_quick_start.ipynb`; the others go deeper into one topic each and 
 | **02_dataset_analysis.ipynb** | How to understand a dataset before training: PCA, mutual information and quantum resource estimation, comparing two datasets, and analyzing your own CSV file |
 | **03_training_settings.ipynb** | How training settings change a model, one section per setting: `seed` (repeatable runs) and `op_direction` (order of the operators), and the settings saved with each model |
 | **04_training_in_depth.ipynb** | A closer look at training: loss and accuracy during training, layers and layer chaining, test accuracy over the course of training, results per class and per layer, choosing the train and test data, reusing trained models, and checking on or stopping a running job |
+| **05_regression.ipynb** | The Quick Start's steps for regression, where the model predicts a number: train on buildings with a known heating load, measure the model on its test rows (mean absolute error), predict the heating load of buildings in a second file, and check the predicted values. Regression does not work well yet in this release: the predictions are currently further off than guessing the average |
 
 ## Scripts
 
@@ -47,7 +48,9 @@ Start with `01_quick_start.ipynb`; the others go deeper into one topic each and 
 
 ## Data
 
-The files in `data/` are the Breast Cancer Wisconsin (Diagnostic) dataset, split once at random into 80% and 20% with the same mix of diagnoses in both (scikit-learn `train_test_split`, `stratify` on the diagnosis, `random_state=42`). Each row has 30 measurements of a tumor sample and its diagnosis, `M` (malignant) or `B` (benign).
+### Breast cancer (classification)
+
+The `wdbc_` files in `data/` are the Breast Cancer Wisconsin (Diagnostic) dataset, split once at random into 80% and 20% with the same mix of diagnoses in both (scikit-learn `train_test_split`, `stratify` on the diagnosis, `random_state=42`). Each row has 30 measurements of a tumor sample and its diagnosis, `M` (malignant) or `B` (benign).
 
 - `wdbc_train.csv`: 455 classified samples, with their diagnosis in the last column, to train on.
 - `wdbc_unclassified.csv`: the other 114 samples, measurements only. They stand in for samples whose class is not yet known.
@@ -56,6 +59,16 @@ The files in `data/` are the Breast Cancer Wisconsin (Diagnostic) dataset, split
 Notebooks 02 to 04 use the same dataset from the server's catalog (`wdbc`).
 
 Source: W. Wolberg, O. Mangasarian, N. Street and W. Street, *Breast Cancer Wisconsin (Diagnostic)*, UCI Machine Learning Repository, 1993, [doi.org/10.24432/C5DW2B](https://doi.org/10.24432/C5DW2B). Licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
+
+### Energy efficiency (regression)
+
+The `energy_` files are the Energy Efficiency dataset, split the same way (80% and 20%, `random_state=42`, not stratified, since the target is a number). Each row is a building design: 8 measurements of its shape (relative compactness, surface area, wall area, roof area, overall height, orientation, glazing area, glazing distribution; the dataset's columns X1 to X8, renamed) and its heating load (Y1, renamed `heating_load`).
+
+- `energy_train.csv`: 614 buildings with their heating load in the last column, to train on.
+- `energy_to_predict.csv`: the other 154 buildings, measurements only. They stand in for buildings whose heating load is not yet known.
+- `energy_to_predict_actual.csv`: the actual heating loads of those 154 buildings, in the same order, used only to check the model's predicted values.
+
+Source: A. Tsanas and A. Xifara, *Energy Efficiency*, UCI Machine Learning Repository, 2012, [doi.org/10.24432/C51307](https://doi.org/10.24432/C51307). Licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
 
 ## About
 
