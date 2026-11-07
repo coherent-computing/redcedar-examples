@@ -8,3 +8,5 @@ __pycache__/
 *_predicted.csv
 # Written by quick_start.py
 quick_start_*.png
+# Written by dataset_analysis.py
+dataset_analysis_*.png

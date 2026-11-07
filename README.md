@@ -45,6 +45,7 @@ Start with `01_quick_start.ipynb`; the others go deeper into one topic each and 
 | Script | Shows |
 |--------|-------|
 | **quick_start.py** | The same steps as `01_quick_start.ipynb`, from the command line. Run it from this folder (`python quick_start.py`); it prints the results and saves the plots as PNG files here |
+| **dataset_analysis.py** | PCA, mutual information and quantum resource estimation for one dataset, as in `02_dataset_analysis.ipynb`: a CSV file of your own (`python dataset_analysis.py my_data.csv`) or a catalog id (`python dataset_analysis.py iris`); WDBC from the catalog without one. It prints the results and saves the plots as PNG files here |
 
 ## Data
 
