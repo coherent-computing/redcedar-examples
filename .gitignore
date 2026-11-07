@@ -5,6 +5,6 @@ __pycache__/
 .env
 # Written by 01_quick_start.ipynb and quick_start.py
 *_predictions.csv
-*_inferred.csv
+*_predicted.csv
 # Written by quick_start.py
 quick_start_*.png
