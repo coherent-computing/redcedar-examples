@@ -100,16 +100,16 @@ print(f"\nThe two models agree on {agree} of {len(actual)} samples.")
 # ==============================================================================
 # 4. WHICH FEATURES EACH MODEL RELIES ON
 #
-# Explainable AI gives the quantum model's importance for each data qubit. For the forest it gives
+# Explainable AI gives the quantum model's importance for each feature (for a feature on more
+# than one data qubit, the probability that any of its qubits reads 1). For the forest it gives
 # each column's share of the trees' error reduction (they add up to 1). The two measure different
 # things, so compare which features come first rather than the numbers themselves.
 
 print("\n4. Which features each model relies on")
-quantum_features = sorted(client.explainable.run(quantum["train_id"])["qubit_map"],
-                          key=lambda q: q["importance"], reverse=True)
+quantum_features = client.explainable.run(quantum["train_id"])["feature_importances"]   # most important first
 forest_features = client.explainable.run(forest["train_id"])["feature_importances"]
 
-print("\n  Quantum model (one feature per data qubit):")
+print("\n  Quantum model:")
 for q in quantum_features:
     print(f"    {q['feature_name']:<24} {q['importance']:.1%}")
 print("\n  Random forest (top 5 of 30 columns):")

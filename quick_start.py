@@ -168,16 +168,23 @@ for c in CLASS_NAMES:
 # 4. WHICH FEATURES THE MODEL RELIES ON
 #
 # Explainable AI maps each data qubit back to the input feature it encodes and measures how much
-# that qubit influences the prediction. More in the User Guide: Explainable AI.
+# that qubit influences the prediction. A feature encoded on more than one qubit gets one
+# importance: the probability that any of its qubits reads 1. More in the User Guide: Explainable AI.
 
 
-def plot_feature_importance(qubit_map, png):
-    """Print each data qubit's feature and importance, most important first; plot them."""
-    qubit_map = sorted(qubit_map, key=lambda q: q["importance"], reverse=True)
-    for q in qubit_map:
-        print(f"  Qubit {q['qubit']}: {q['feature_name']} (importance {q['importance']:.1%})")
+def qubits_of(feature):
+    """The data qubits holding a feature: "0", or "0–2" for a feature on several qubits."""
+    ids = [q["qubit"] for q in feature["qubits"]]
+    return str(ids[0]) if len(ids) == 1 else f"{ids[0]}–{ids[-1]}"
+
+
+def plot_feature_importance(features, png):
+    """Print each feature's data qubits and importance, most important first; plot them."""
+    for f in features:
+        word = "Qubit" if len(f["qubits"]) == 1 else "Qubits"
+        print(f"  {word} {qubits_of(f)}: {f['feature_name']} (importance {f['importance']:.1%})")
     plt.figure(figsize=(6, 3))
-    plt.barh([f"q{q['qubit']}: {q['feature_name']}" for q in qubit_map], [q["importance"] for q in qubit_map])
+    plt.barh([f"q{qubits_of(f)}: {f['feature_name']}" for f in features], [f["importance"] for f in features])
     plt.gca().invert_yaxis()
     plt.xlabel("Importance")
     plt.tight_layout()
@@ -185,7 +192,7 @@ def plot_feature_importance(qubit_map, png):
     print(f"Chart saved to {png}")
 
 
-# Explain the model and show the results
+# Explain the model and show the results (one entry per feature, most important first)
 print("\n4. Which features the model relies on")
 explanation = client.explainable.run(train_id, verbose=True)
-plot_feature_importance(explanation["qubit_map"], "quick_start_features.png")
+plot_feature_importance(explanation["feature_importances"], "quick_start_features.png")
