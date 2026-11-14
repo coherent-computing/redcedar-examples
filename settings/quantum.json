@@ -1,0 +1,6 @@
+{
+  "num_qubits": 4,
+  "min_layers": 1,
+  "max_layers": 1,
+  "seed": 123
+}

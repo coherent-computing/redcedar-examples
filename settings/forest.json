@@ -1,0 +1,5 @@
+{
+  "model": "random_forest",
+  "seed": 123,
+  "forest_options": {"n_estimators": 300, "min_samples_leaf": 5}
+}
