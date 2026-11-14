@@ -39,12 +39,15 @@ Start with `01_quick_start.ipynb`; the others go deeper into one topic each and 
 | **03_training_settings.ipynb** | How training settings change a model, one section per setting: `seed` (repeatable runs) and `op_direction` (order of the operators), and the settings saved with each model |
 | **04_training_in_depth.ipynb** | A closer look at training: loss and accuracy during training, layers and layer chaining, test accuracy over the course of training, results per class and per layer, choosing the train and test data, reusing trained models, and checking on or stopping a running job |
 | **05_regression.ipynb** | The Quick Start's steps for regression, where the model predicts a number: train on buildings with a known heating load, measure the model on its test rows (mean absolute error), predict the heating load of buildings in a second file, and check the predicted values. Regression does not work well yet in this release: the predictions are currently further off than guessing the average |
+| **06_random_forest.ipynb** | The Quick Start's steps with a random forest, the classical model Red Cedar trains as a baseline: train it on the same file, classify the samples, check the predicted classes, and see which columns it relies on. Needs a 0.95 server |
+| **07_quantum_and_forest.ipynb** | The quantum model and the random forest side by side, trained and tested on the same rows: test accuracy, the same samples classified by both, the samples where they disagree, and the features each relies on. Needs a 0.95 server |
 
 ## Scripts
 
 | Script | Shows |
 |--------|-------|
 | **quick_start.py** | The same steps as `01_quick_start.ipynb`, from the command line. Run it from this folder (`python quick_start.py`); it prints the results and saves the plots as PNG files here |
+| **quantum_and_forest.py** | The same comparison as `07_quantum_and_forest.ipynb`, from the command line (`python quantum_and_forest.py`); it prints the results. Needs a 0.95 server |
 | **dataset_analysis.py** | PCA, mutual information and quantum resource estimation for one dataset, as in `02_dataset_analysis.ipynb`: a CSV file of your own (`python dataset_analysis.py my_data.csv`) or a catalog id (`python dataset_analysis.py iris`); WDBC from the catalog without one. It prints the results and saves the plots as PNG files here |
 
 ## Data
