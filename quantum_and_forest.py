@@ -19,7 +19,7 @@ tumor sample and a diagnosis, M (malignant) or B (benign).
   wdbc_unclassified_actual.csv  their actual diagnoses, to check the predictions
 This is a demonstration on a public dataset, not a medical tool.
 
-Needs a Red Cedar server of version 0.95 or later (the random forest is new in 0.95). The server
+Needs a Red Cedar server of version 2.0 or later (the random forest is new in 2.0). The server
 comes from REDCEDAR_URL and REDCEDAR_API_KEY. Run the script from this folder, where the data/
 folder is:
 
